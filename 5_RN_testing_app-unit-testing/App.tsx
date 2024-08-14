@@ -15,3 +15,5 @@ const App = () => {
 };
 
 export default App;
+
+// Coverage Display(Istanbul): 5_RN_testing_app-unit-testing/coverage/lcov-report/index.html

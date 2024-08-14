@@ -1,58 +1,60 @@
-import { MMKV } from "react-native-mmkv";
-import reduxStorage from "../../src/redux/storage";
+import { MMKV } from 'react-native-mmkv'; // Import MMKV for storage
+import reduxStorage from '../../src/redux/storage'; // Import reduxStorage for testing
 
+// Mock MMKV to avoid actual storage operations
 jest.mock('react-native-mmkv', () => {
-    const setMock = jest.fn()
-    const getStringMock = jest.fn()
-    const deleteMock = jest.fn()
+  // Create mock functions for MMKV methods
+  const setMock = jest.fn(); // Mock function to simulate setting a value in storage
+  const getStringMock = jest.fn(); // Mock function to simulate retrieving a string value from storage
+  const deleteMock = jest.fn(); // Mock function to simulate deleting a value from storage
 
-    return {
-        MMKV: jest.fn().mockImplementation(() => ({
-            set: setMock,
-            getString: getStringMock,
-            delete: deleteMock
-        })),
-        setMock,
-        getStringMock,
-        deleteMock
-    }
-})
+  return {
+    // Mock the MMKV class constructor
+    MMKV: jest.fn().mockImplementation(() => ({
+      set: setMock, // Return the mocked set function when MMKV's set method is called
+      getString: getStringMock, // Return the mocked getString function when MMKV's getString method is called
+      delete: deleteMock, // Return the mocked delete function when MMKV's delete method is called
+    })),
+    setMock, // Export the mock function for setting values (useful for assertions in tests)
+    getStringMock, // Export the mock function for retrieving string values (useful for assertions in tests)
+    deleteMock, // Export the mock function for deleting values (useful for assertions in tests)
+  };
+});
 
 
 describe('reduxStorage', () => {
-    let setMock: jest.Mock
-    let getStringMock: jest.Mock
-    let deleteMock: jest.Mock
+  let setMock: jest.Mock; // Placeholder for set mock function
+  let getStringMock: jest.Mock; // Placeholder for getString mock function
+  let deleteMock: jest.Mock; // Placeholder for delete mock function
 
-    beforeEach(() => {
-        ({ setMock, getStringMock, deleteMock } = require('react-native-mmkv'))
-    })
+  beforeEach(() => {
+    // Reassign mocks before each test
+    ({ setMock, getStringMock, deleteMock } = require('react-native-mmkv'));
+  });
 
-    afterEach(() => {
-        jest.clearAllMocks()
-    })
+  afterEach(() => {
+    // Clear mock call history after each test
+    jest.clearAllMocks();
+  });
+  test('Set Item', async () => {
+    const key = 'testKey'; // Key for storage
+    const value = 'testValue'; // Value to store
+    await reduxStorage.setItem(key, value); // Test setItem method
+    expect(setMock).toHaveBeenCalledWith(key, value); // Verify set was called with correct arguments
+  });
 
-    test('Set Item', async () => {
-        const key = 'testKey'
-        const value = 'testValue';
-        await reduxStorage.setItem(key, value)
-        expect(setMock).toHaveBeenCalledWith(key, value)
-    })
+  test('Get Item', async () => {
+    const key = 'testKey'; // Key for retrieval
+    const value = 'testValue'; // Expected value
+    getStringMock.mockReturnValue(value); // Mock return value(getStringMock.mockReturnValue(value) is used to specify what value the mock function getStringMock should return when called)
+    const result = await reduxStorage.getItem(key); // Test getItem method
+    expect(result).toBe(value); // Verify returned value
+    expect(getStringMock).toHaveBeenCalledWith(key); // Verify getString was called with key
+  });
 
-    test('Get Item', async () => {
-        const key = 'testKey'
-        const value = 'testValue';
-        getStringMock.mockReturnValue(value)
-        const result = await reduxStorage.getItem(key)
-        expect(result).toBe(value)
-        expect(getStringMock).toHaveBeenCalledWith(key)
-    })
-
-    test('Delete Item', async () => {
-        const key = 'testKey'
-
-        await reduxStorage.removeItem(key)
-        expect(deleteMock).toHaveBeenCalledWith(key)
-    })
-
-})
+  test('Delete Item', async () => {
+    const key = 'testKey'; // Key for deletion
+    await reduxStorage.removeItem(key); // Test removeItem method
+    expect(deleteMock).toHaveBeenCalledWith(key); // Verify delete was called with key
+  });
+});

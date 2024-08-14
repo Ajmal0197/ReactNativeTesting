@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "prettier_write": "npx prettier --write ."
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.6.1",
@@ -45,7 +46,7 @@
     "@react-native/eslint-config": "0.74.85",
     "@react-native/metro-config": "0.74.85",
     "@react-native/typescript-config": "0.74.85",
-    "@testing-library/react-native": "^12.5.2",
+    "@testing-library/react-native": "^12.5.3",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
