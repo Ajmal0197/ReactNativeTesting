@@ -11,7 +11,7 @@ jest.mock('../../src/utils/NavigationUtil', () => ({
 }));
 
 // Mocking redux-persist to handle the persistence functionality in tests
-jest.mock('redux-ppersist', () => ({
+jest.mock('redux-persist', () => ({
   persistStore: jest.fn().mockReturnValue({
     purge: jest.fn(),
   }),
