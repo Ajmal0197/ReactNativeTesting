@@ -81,7 +81,6 @@ Happy testing!
 
 All the information for unit testing, E2E testing, and the concepts of white-box and gray-box testing:
 
-```markdown
 # Project Testing Guide
 
 This `README.md` provides guidelines on Unit Testing, End-to-End (E2E) Testing, and the testing methodologies used in our project, specifically White-Box and Gray-Box testing.
